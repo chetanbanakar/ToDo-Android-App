@@ -95,16 +95,5 @@ public class AddTaskActivity extends AppCompatActivity {
         values.put(TaskDbHelper.COLUMN_COMPLETED, 0);
         values.put(TaskDbHelper.COLUMN_DUE_DATE, dueDate);
         long taskId = dbHelper.getWritableDatabase().insert(TaskDbHelper.TABLE_NAME, null, values);
-        if (dueDate > 0) {
-            scheduleReminder(taskId, title, dueDate);
-        }
-    }
-
-    private void scheduleReminder(long taskId, String title, long dueDate) {
-        android.app.AlarmManager alarmManager = (android.app.AlarmManager) getSystemService(android.content.Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, ReminderReceiver.class);
-        intent.putExtra("task_title", title);
-        android.app.PendingIntent pendingIntent = android.app.PendingIntent.getBroadcast(this, (int) taskId, intent, android.app.PendingIntent.FLAG_UPDATE_CURRENT | android.app.PendingIntent.FLAG_IMMUTABLE);
-        alarmManager.setExact(android.app.AlarmManager.RTC_WAKEUP, dueDate, pendingIntent);
     }
 }

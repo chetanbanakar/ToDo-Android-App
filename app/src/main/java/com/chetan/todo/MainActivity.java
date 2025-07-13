@@ -86,11 +86,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void deleteTask(Task task, int position) {
-        // Cancel reminder if any
-        android.app.AlarmManager alarmManager = (android.app.AlarmManager) getSystemService(android.content.Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, ReminderReceiver.class);
-        android.app.PendingIntent pendingIntent = android.app.PendingIntent.getBroadcast(this, (int) task.getId(), intent, android.app.PendingIntent.FLAG_UPDATE_CURRENT | android.app.PendingIntent.FLAG_IMMUTABLE);
-        alarmManager.cancel(pendingIntent);
         // Delete from DB
         dbHelper.getWritableDatabase().delete(TaskDbHelper.TABLE_NAME, TaskDbHelper.COLUMN_ID + "=?", new String[]{String.valueOf(task.getId())});
         taskList.remove(position);

@@ -109,26 +109,6 @@ public class EditTaskActivity extends AppCompatActivity {
         values.put(TaskDbHelper.COLUMN_TITLE, newTitle);
         values.put(TaskDbHelper.COLUMN_DUE_DATE, dueDate);
         dbHelper.getWritableDatabase().update(TaskDbHelper.TABLE_NAME, values, TaskDbHelper.COLUMN_ID + "=?", new String[]{String.valueOf(taskId)});
-        if (dueDate > 0) {
-            scheduleReminder(taskId, newTitle, dueDate);
-        } else {
-            cancelReminder(taskId);
-        }
-    }
-
-    private void scheduleReminder(long taskId, String title, long dueDate) {
-        android.app.AlarmManager alarmManager = (android.app.AlarmManager) getSystemService(android.content.Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, ReminderReceiver.class);
-        intent.putExtra("task_title", title);
-        android.app.PendingIntent pendingIntent = android.app.PendingIntent.getBroadcast(this, (int) taskId, intent, android.app.PendingIntent.FLAG_UPDATE_CURRENT | android.app.PendingIntent.FLAG_IMMUTABLE);
-        alarmManager.setExact(android.app.AlarmManager.RTC_WAKEUP, dueDate, pendingIntent);
-    }
-
-    private void cancelReminder(long taskId) {
-        android.app.AlarmManager alarmManager = (android.app.AlarmManager) getSystemService(android.content.Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, ReminderReceiver.class);
-        android.app.PendingIntent pendingIntent = android.app.PendingIntent.getBroadcast(this, (int) taskId, intent, android.app.PendingIntent.FLAG_UPDATE_CURRENT | android.app.PendingIntent.FLAG_IMMUTABLE);
-        alarmManager.cancel(pendingIntent);
     }
 
     private long getDueDateFromDb(long taskId) {
