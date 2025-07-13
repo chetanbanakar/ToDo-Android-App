@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class TaskDbHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "tasks.db";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 4;
 
     public static final String TABLE_NAME = "tasks";
     public static final String COLUMN_ID = "id";
